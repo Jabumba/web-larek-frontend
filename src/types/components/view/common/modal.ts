@@ -6,7 +6,7 @@ export interface IModalData<H, C> {
 	message?: string;
 	isActive: boolean;
 	isError?: boolean;
-}
+};
 
 export interface IModalSettings<H, C> {
 	close: string;
@@ -21,4 +21,4 @@ export interface IModalSettings<H, C> {
 	messageErrorClass: string;
 	onOpen?: () => void;
 	onClose?: () => void;
-}
+};

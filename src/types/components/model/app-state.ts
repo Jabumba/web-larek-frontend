@@ -1,11 +1,11 @@
 import 
     { 
         IProduct, 
-        OrderResponse, 
+        IOrderResponse, 
         IUser,
         IProductAPI
     }
-from './product-api'
+from './product-api';
 
 import { IBasket } from './basket-model';
 
@@ -27,7 +27,7 @@ export enum AppStateChanges {
 	selectedProduct = 'change:selectedProduct',
 	basket = 'change:basket',
 	order = 'change:order',
-}
+};
 
 export interface IAppState {
     products?: IProduct[];
@@ -35,7 +35,7 @@ export interface IAppState {
     basketProducts: IProduct[] | null;
     basket: IBasket;
     userSettings: IUser;
-	completeOrder: OrderResponse;
+	completeOrder: IOrderResponse;
 	order: IUser | ApiListResponse<string>;
 
     // Состояние интерфейса
@@ -46,7 +46,7 @@ export interface IAppState {
 
     // Действия с API
 	getProducts: () => Promise<ApiListResponse<IProduct>>;
-    orderProducts: (order: IUser | ApiListResponse<string>) => Promise<OrderResponse>;
+    orderProducts: (order: IUser | ApiListResponse<string>) => Promise<IOrderResponse>;
     openModal(modal: AppStateModals): void;
 
 	// Пользовательские действия
@@ -54,7 +54,7 @@ export interface IAppState {
 	removeBasketProduct(id: string): void;
 	fillSettings(settings: Partial<IUser>): void;
 	isValidSettings(): boolean;
-}
+};
 
 // Настройки модели данных
 export interface AppStateSettings {
@@ -62,9 +62,9 @@ export interface AppStateSettings {
 	storageKey: string;
 	// Функция, которая будет вызываться при изменении состояния
 	onChange: (changed: AppStateChanges) => void;
-}
+};
 
 // Конструктор модели данных
 export interface AppStateConstructor {
 	new (api: IProductAPI, settings: AppStateSettings): IAppState;
-}
+};

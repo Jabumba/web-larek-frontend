@@ -1,5 +1,6 @@
 import { IHeaderData } from '../common/header';
 import { IItemData } from '../partial/ticket';
+import { IModalScreenSettings } from './modalScreen';
 
 export interface IBasketData {
 	tickets: IItemData[];
@@ -7,10 +8,8 @@ export interface IBasketData {
 	isActive: boolean;
 	isDisabled: boolean;
 	total: string;
-}
+};
 
-export interface IBasketSettings {
+export interface IBasketSettings extends IModalScreenSettings {
 	onDelete: (id: string) => void;
-	onClose: () => void;
-	onNext: () => void;
-}
+};

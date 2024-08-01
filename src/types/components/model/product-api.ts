@@ -17,7 +17,7 @@ export type IUser = {
     phone: string;
 };
 
-export type OrderResponse = {
+export type IOrderResponse = {
     _id: string;
     total: number;
 };
@@ -26,5 +26,5 @@ export type OrderResponse = {
 export interface IProductAPI {
     readonly optionUrl: string;
     getProducts: () => Promise<ApiListResponse<IProduct>>;
-    orderProducts: (order: IUser | ApiListResponse<string>) => Promise<OrderResponse>;
+    orderProducts: (order: IUser | ApiListResponse<string>) => Promise<IOrderResponse>;
 };

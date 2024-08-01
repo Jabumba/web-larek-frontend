@@ -3,7 +3,14 @@ export interface IView<T, S = object> {
 	element: HTMLElement; // корневой элемент
 	copy(settings?: S): IView<T>; // копирующий конструктор
 	render(data?: Partial<T>): HTMLElement; // метод рендера
-}
+	setVisible(element: HTMLElement): void; // показать элемент
+	setHidden(element: HTMLElement): void; // скрыть элемент
+	setText(element: HTMLElement, value: unknown): void; // установить текстовое содержимое
+	setDisabled(element: HTMLElement, state: boolean): void; // изменить статус блокировки
+	toggleClass(element: HTMLElement, className: string, force?: boolean): void; // переключить класс
+	setText(element: HTMLElement, value: unknown): void; // установить текстовое содержимое
+	init(): void; // устанавливаем события на элемент
+};
 
 export interface IViewConstructor<T, S> {
 	// конструктор отображения
@@ -11,7 +18,7 @@ export interface IViewConstructor<T, S> {
 	// или существующий элемент,
 	// а также настройки для отображения
 	new (root: HTMLElement, settings: S): IView<T>;
-}
+};
 
 // Чтобы события настраивались единообразно, пропишем их здесь
 export type IEvent<T> = { event: Event; item?: T };
@@ -19,16 +26,16 @@ export type IEvent<T> = { event: Event; item?: T };
 // export type IClickableEvent<T> = { event: MouseEvent; item?: T };
 export interface IClickable<T> {
 	onClick: (args: IEvent<T>) => void;
-}
+};
 
 // Настройки для изменяемого отображения (формы, переключатели...)
 // export type IChangeableEvent<T> = { event: Event; value?: T };
 export interface IChangeable<T> {
 	onChange: (args: IEvent<T>) => void;
-}
+};
 
 // Настройки для выбираемого отображения (списки, таблицы...)
 // export type ISelectableEvent<T> = { event: Event; value?: T };
 export interface ISelectable<T> {
 	onSelect: (args: IEvent<T>) => void;
-}
+};

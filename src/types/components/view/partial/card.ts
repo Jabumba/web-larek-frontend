@@ -6,11 +6,11 @@ export interface ICardData {
     title: string;
     category: string;
     price: number;
-}
+};
 
 export interface ICardSettings extends IClickable<string> {
 	image: string;
     title: string;
     category: string;
     price: number;
-}
+};

@@ -5,5 +5,5 @@ export interface IBasket {
     products: IProduct[];
     totalPrice: number;
 
-    removeProduct(id: string): void
-}
+    removeProduct(id: string): void;
+};
