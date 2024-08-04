@@ -1,13 +1,11 @@
 import 
     { 
         IProduct, 
-        IOrderResponse, 
+        OrderResponse, 
         IUser,
         IProductAPI
     }
 from './product-api';
-
-import { IBasket } from './basket-model';
 
 import { ApiListResponse } from '../../../components/base/api';
 
@@ -30,12 +28,13 @@ export enum AppStateChanges {
 };
 
 export interface IAppState {
-    products?: IProduct[];
+    products?: Map<string, IProduct>;
 
-    basketProducts: IProduct[] | null;
-    basket: IBasket;
+    selectedProducts: Map<string, IProduct>;
+	basketTotal: number;
+	basketPrice: number;
     userSettings: IUser;
-	completeOrder: IOrderResponse;
+	completeOrder: OrderResponse;
 	order: IUser | ApiListResponse<string>;
 
     // Состояние интерфейса
@@ -46,25 +45,27 @@ export interface IAppState {
 
     // Действия с API
 	getProducts: () => Promise<ApiListResponse<IProduct>>;
-    orderProducts: (order: IUser | ApiListResponse<string>) => Promise<IOrderResponse>;
-    openModal(modal: AppStateModals): void;
+    orderProducts: (order: IUser | ApiListResponse<string>) => Promise<OrderResponse>;
 
 	// Пользовательские действия
-	addProduct(id: string): void;
-	removeBasketProduct(id: string): void;
+	selectProduct(id: string): void;
+	removeProduct(id: string): void;
 	fillSettings(settings: Partial<IUser>): void;
 	isValidSettings(): boolean;
+
+	// Методы для работы с модальными окнами
+	openModal(modal: AppStateModals): void;
+	setMessage(message: string | null, isError: boolean): void;
 };
 
 // Настройки модели данных
-export interface AppStateSettings {
+export interface IAppStateSettings {
 	formatCurrency: (value: number) => string;
 	storageKey: string;
 	// Функция, которая будет вызываться при изменении состояния
 	onChange: (changed: AppStateChanges) => void;
 };
 
-// Конструктор модели данных
-export interface AppStateConstructor {
-	new (api: IProductAPI, settings: AppStateSettings): IAppState;
+export interface IAppStateConstructor {
+	new (api: IProductAPI, settings: IAppStateSettings): IAppState;
 };
