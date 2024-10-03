@@ -1,9 +1,4 @@
-export interface IPopup {
-    modal: HTMLDivElement;
-    container: HTMLDivElement;
-    buttonClose: HTMLButtonElement;
-    content: HTMLElement;
-}
+import { IPopup } from "../../types";
 
 export class Popup implements IPopup {
     protected modal: HTMLDivElement;

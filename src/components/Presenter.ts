@@ -1,37 +1,31 @@
-import { IModel, IItemView, ICard } from '../types/index';
-import { ItemCatalogView } from './view/ItemCatalogView';
-import { IPopupView } from './view/PopupView';
-
-// export interface IPresenter {
-//     model: IModel;
-//     popup: IPopupView;
-
-//     itemView: IItemView;
-
-//     catalogContainer: HTMLElement;
-//     cardCatalogTemplate: HTMLTemplateElement;
-
-//     globalRender(): void;
-// }
+import { IModel, IItemView, ICard, IPopup } from '../types/index';
+import { CatalogCard, ICatalogCardConstructor } from './view/CatalogCard';
 
 export class Presenter {
-    protected model: IModel;
-    protected popup: IPopupView;
+    protected _model: IModel;
+    protected popup: IPopup;
 
-    protected itemView:IItemView;
+    protected catalogContainer: HTMLElement;
+    protected catalogCardTemplate: HTMLTemplateElement;
 
-    protected catalogContainer: HTMLElement
-    protected cardCatalogTemplate: HTMLTemplateElement;
-
-    constructor(model: IModel) {
-        this.model = model;
+    constructor(
+        protected catalogCardConstructor: ICatalogCardConstructor
+    ) {
         this.catalogContainer = document.querySelector('.gallery');
-        this.cardCatalogTemplate = document.querySelector('#card-catalog') as HTMLTemplateElement;
+        this.catalogCardTemplate = document.querySelector('#card-catalog') as HTMLTemplateElement;
+    }
+
+    get model() {
+        return this._model;
+    }
+
+    set model(model: IModel) {
+        this._model = model;
     }
 
     globalRender() {
         this.model.items.forEach(item => {
-            const element = new ItemCatalogView(this.cardCatalogTemplate);
+            const element = new this.catalogCardConstructor(this.catalogCardTemplate);
             this.catalogContainer.append(element.render(item));
         })
     }

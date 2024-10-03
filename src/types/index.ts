@@ -22,3 +22,16 @@ export interface ICard {
     category: string,
     price: number
 }
+
+export interface IBaseCard {
+    card: HTMLElement;
+    title: HTMLElement;
+    price: HTMLSpanElement;
+}
+
+export interface IPopup {
+    modal: HTMLDivElement;
+    container: HTMLDivElement;
+    buttonClose: HTMLButtonElement;
+    content: HTMLElement;
+}
