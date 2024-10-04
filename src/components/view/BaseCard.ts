@@ -1,9 +1,9 @@
 import { IBaseCard, ICard } from "../../types";
 
 export abstract class BaseCard implements IBaseCard {
-    protected card: HTMLElement;
-    protected title: HTMLElement;
-    protected price: HTMLSpanElement;
+    card: HTMLElement;
+    title: HTMLElement;
+    price: HTMLSpanElement;
 
     constructor(template: HTMLTemplateElement) {
         this.card = template.content.querySelector('.card').cloneNode(true) as HTMLElement;
@@ -13,8 +13,10 @@ export abstract class BaseCard implements IBaseCard {
 
     abstract setEvent(event: Function): void
 
-    render(data: ICard): void {
+    render(data: ICard): HTMLElement {
         this.title.textContent = data.title;
         this.price.textContent = `${data.price}`;
+
+        return this.card;
     }
 }

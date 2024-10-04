@@ -27,6 +27,9 @@ export interface IBaseCard {
     card: HTMLElement;
     title: HTMLElement;
     price: HTMLSpanElement;
+
+    setEvent(event: Function): void;
+    render(data: ICard): HTMLElement
 }
 
 export interface IPopup {

@@ -1,7 +1,7 @@
 import { IBaseCard, ICard } from "../../types";
 import { BaseCard } from "./BaseCard";
 
-export interface ICatalogCardConstructor {
+export interface ICardConstructor {
     new (template: HTMLTemplateElement): IBaseCard
 }
 

@@ -1,9 +1,9 @@
 import { IPopup } from "../../types";
 
 export class Popup implements IPopup {
-    protected modal: HTMLDivElement;
-    protected container: HTMLDivElement;
-    protected buttonClose: HTMLButtonElement;
+    modal: HTMLDivElement;
+    container: HTMLDivElement;
+    buttonClose: HTMLButtonElement;
     protected _content: HTMLElement;
 
     constructor(modal: HTMLDivElement) {

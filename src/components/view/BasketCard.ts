@@ -1,7 +1,7 @@
-import { ICard } from "../../types";
-import { Card } from "./BaseCard";
+import { IBaseCard, ICard } from "../../types";
+import { BaseCard } from "./BaseCard";
 
-export class BasketCard extends Card {
+export class BasketCard extends BaseCard implements IBaseCard {
     protected button: HTMLButtonElement;
 
     constructor(template: HTMLTemplateElement) {
@@ -9,7 +9,7 @@ export class BasketCard extends Card {
         // this.card = template.content.querySelector('.card').cloneNode(true) as HTMLElement;
         // this.title = this.card.querySelector('.card__title') as HTMLHRElement;
         // this.price = this.card.querySelector('.card__price') as HTMLSpanElement;
-        this.button =  this.card.querySelector('.card__button') as HTMLButtonElement;
+        this.button = this.card.querySelector('.card__button') as HTMLButtonElement;
     }
 
     setEvent(event: Function) {
