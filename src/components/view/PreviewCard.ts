@@ -18,7 +18,7 @@ export class PreviewCard extends BaseCard implements IBaseCard {
 
     setEvent(event: Function) {
         this.card.addEventListener('click', ((evt) => {
-            event();
+            event(this);
         }))
     }
 
@@ -27,6 +27,25 @@ export class PreviewCard extends BaseCard implements IBaseCard {
 
         this.category.textContent = data.category;
         this.image.src = `${data.image}`;
+
+        switch (data.category) {
+            case 'софт-скил':
+                this.category.classList.remove('card__category_other');
+                this.category.classList.add('card__category_soft');
+                break;
+            case 'дополнительное':
+                this.category.classList.remove('card__category_other');
+                this.category.classList.add('card__category_additional');
+                break
+            case 'кнопка':
+                this.category.classList.remove('card__category_other');
+                this.category.classList.add('card__category_button');
+                break
+            case 'хард-скил':
+                this.category.classList.remove('card__category_other');
+                this.category.classList.add('card__category_hard');
+                break;
+        }
 
         return this.card;
     }

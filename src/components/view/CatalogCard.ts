@@ -18,7 +18,7 @@ export class CatalogCard extends BaseCard implements IBaseCard {
 
     setEvent(event: Function) {
         this.card.addEventListener('click', (() => {
-            event();
+            event(this);
         }))
     }
 
@@ -45,9 +45,8 @@ export class CatalogCard extends BaseCard implements IBaseCard {
                 this.category.classList.remove('card__category_soft');
                 this.category.classList.add('card__category_hard');
                 break;
-            // default:
-            //     alert( "Нет таких значений" );
-          }
+        }
+        
         return this.card;
     }
 }

@@ -42,3 +42,14 @@ export interface IPopup {
     open(): void;
     close(): void;
 }
+
+export interface IBasket {
+    basket: HTMLDivElement;
+    cardList: HTMLElement;
+    button: HTMLButtonElement;
+    basketPrice: HTMLSpanElement;
+
+    addCard(card: HTMLElement): void;
+    setEvent(event: Function): void;
+    render(): HTMLElement; 
+}

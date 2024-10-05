@@ -30,7 +30,6 @@ export class Popup implements IPopup {
     // }
 
     open() {
-        console.log('popup открыт');
 		this.modal.classList.add('modal_active');
 	}
 

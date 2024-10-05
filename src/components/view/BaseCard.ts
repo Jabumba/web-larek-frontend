@@ -4,7 +4,7 @@ export abstract class BaseCard implements IBaseCard {
     card: HTMLElement;
     title: HTMLElement;
     price: HTMLSpanElement;
-    _id: string;
+    protected _id: string;
 
     constructor(template: HTMLTemplateElement) {
         this.card = template.content.querySelector('.card').cloneNode(true) as HTMLElement;

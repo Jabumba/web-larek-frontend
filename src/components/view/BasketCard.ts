@@ -1,6 +1,10 @@
 import { IBaseCard, ICard } from "../../types";
 import { BaseCard } from "./BaseCard";
 
+export interface ICardConstructor {
+    new (template: HTMLTemplateElement): IBaseCard
+}
+
 export class BasketCard extends BaseCard implements IBaseCard {
     protected button: HTMLButtonElement;
 
@@ -18,7 +22,7 @@ export class BasketCard extends BaseCard implements IBaseCard {
         });
     }
 
-    render(data: ICard) {
+    render(data: ICard): HTMLElement {
         super.render(data);
         return this.card;
     }

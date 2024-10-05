@@ -8,15 +8,22 @@ import { CatalogCard } from './components/view/CatalogCard';
 import { PreviewCard } from './components/view/PreviewCard';
 import { BasketCard } from './components/view/BasketCard';
 import { Popup } from './components/view/Popup';
+import { Basket } from './components/view/Basket';
+import { IBasket } from './types';
+const basketTemplate = document.querySelector('#basket') as HTMLTemplateElement;
 const modalContainer = document.querySelector('#modal-container') as HTMLDivElement;
 const api = new Api(API_URL);
 const apiFilter = new ApiProduct(api, CDN_URL);
 const model = new Model();
 const modal = new Popup(modalContainer);
+const basket: IBasket = new Basket(basketTemplate);
+
 const presenter = new Presenter(
-    model, 
+    model,
+    basket,
     CatalogCard,
     PreviewCard,
+    BasketCard,
     modal
 );
 
