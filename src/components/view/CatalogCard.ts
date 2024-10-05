@@ -17,7 +17,7 @@ export class CatalogCard extends BaseCard implements IBaseCard {
     }
 
     setEvent(event: Function) {
-        this.card.addEventListener('click', ((evt) => {
+        this.card.addEventListener('click', (() => {
             event();
         }))
     }
@@ -28,6 +28,26 @@ export class CatalogCard extends BaseCard implements IBaseCard {
         this.category.textContent = data.category;
         this.image.src = `${data.image}`;
 
+        switch (data.category) {
+            case 'другое':
+                this.category.classList.remove('card__category_soft');
+                this.category.classList.add('card__category_other');
+                break;
+            case 'дополнительное':
+                this.category.classList.remove('card__category_soft');
+                this.category.classList.add('card__category_additional');
+                break
+            case 'кнопка':
+                this.category.classList.remove('card__category_soft');
+                this.category.classList.add('card__category_button');
+                break
+            case 'хард-скил':
+                this.category.classList.remove('card__category_soft');
+                this.category.classList.add('card__category_hard');
+                break;
+            // default:
+            //     alert( "Нет таких значений" );
+          }
         return this.card;
     }
 }

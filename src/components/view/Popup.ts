@@ -9,31 +9,33 @@ export class Popup implements IPopup {
     constructor(modal: HTMLDivElement) {
         this.modal = modal;
         this.container = modal.querySelector('.modal__container');
-        this.buttonClose = modal.querySelector('.modal__close');
-        this._content = modal.querySelector('.modal__content');
+        this.buttonClose = this.container.querySelector('.modal__close');
+        this._content = this.container.querySelector('.modal__content');
 
-        this.buttonClose.addEventListener('click', this.changeVisibility.bind(this));
-        this.modal.addEventListener('click', this.changeVisibility.bind(this));
+        this.buttonClose.addEventListener('click', (() => {
+            this.close();
+        }));
+        this.modal.addEventListener('click', (() => {
+            this.close();
+        }));
+        this.container.addEventListener('click', (event) => event.stopPropagation());
     }
 
     set content(el: HTMLElement) {
         this._content.replaceChildren(el);
     }
 
-    get content() {
-        return this._content;
-    }
+    // changeVisibility() {
+    //     this.container.classList.toggle('modal_active')
+    // }
 
-    changeVisibility() {
-        this.container.classList.toggle('modal_active')
-    }
+    open() {
+        console.log('popup открыт');
+		this.modal.classList.add('modal_active');
+	}
 
-    // open() {
-	// 	this.container.classList.add('modal_active');
-	// }
-
-	// close() {
-	// 	this.container.classList.remove('modal_active');
-	// 	this.content = null;
-	// }
+	close() {
+		this.modal.classList.remove('modal_active');
+		this.content = null;
+	}
 }

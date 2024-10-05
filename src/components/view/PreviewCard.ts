@@ -16,18 +16,18 @@ export class PreviewCard extends BaseCard implements IBaseCard {
         this.button = this.card.querySelector('.card__button') as HTMLButtonElement;
     }
 
-    // setEvent(event: Function) {
-    //     this.card.addEventListener('click', ((evt) => {
-    //         event();
-    //     }))
-    // }
+    setEvent(event: Function) {
+        this.card.addEventListener('click', ((evt) => {
+            event();
+        }))
+    }
 
-    // render(data: ICard): HTMLElement {
-    //     super.render(data);
+    render(data: ICard): HTMLElement {
+        super.render(data);
 
-    //     this.category.textContent = data.category;
-    //     this.image.src = `${data.image}`;
+        this.category.textContent = data.category;
+        this.image.src = `${data.image}`;
 
-    //     return this.card;
-    // }
+        return this.card;
+    }
 }

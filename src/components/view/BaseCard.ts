@@ -4,6 +4,7 @@ export abstract class BaseCard implements IBaseCard {
     card: HTMLElement;
     title: HTMLElement;
     price: HTMLSpanElement;
+    _id: string;
 
     constructor(template: HTMLTemplateElement) {
         this.card = template.content.querySelector('.card').cloneNode(true) as HTMLElement;
@@ -11,12 +12,24 @@ export abstract class BaseCard implements IBaseCard {
         this.price = this.card.querySelector('.card__price') as HTMLSpanElement;
     }
 
+    set id(value: string) {
+        this._id = value;
+    }
+
+    get id(): string {
+        return this._id;
+    }
+
     abstract setEvent(event: Function): void
 
     render(data: ICard): HTMLElement {
+        this._id = data.id;
         this.title.textContent = data.title;
-        this.price.textContent = `${data.price}`;
-
+        if(data.price !== null) {
+            this.price.textContent = `${data.price} синапсов`;
+        } else {
+            this.price.textContent = 'Бесценно';
+        }
         return this.card;
     }
 }

@@ -27,6 +27,7 @@ export interface IBaseCard {
     card: HTMLElement;
     title: HTMLElement;
     price: HTMLSpanElement;
+    id: string;
 
     setEvent(event: Function): void;
     render(data: ICard): HTMLElement
@@ -37,4 +38,7 @@ export interface IPopup {
     container: HTMLDivElement;
     buttonClose: HTMLButtonElement;
     content: HTMLElement;
+
+    open(): void;
+    close(): void;
 }
