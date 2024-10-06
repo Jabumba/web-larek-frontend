@@ -1,4 +1,4 @@
-import { IBasket } from "../../types";
+import { IBaseCard, IBasket } from "../../types";
 
 export class Basket implements IBasket {
     basket: HTMLDivElement;
@@ -14,7 +14,7 @@ export class Basket implements IBasket {
         this.basketPrice = this.basket.querySelector('.basket__price') as HTMLSpanElement;
     }
 
-    addCard(card: any) {
+    addCard(card: HTMLElement) {
         this.cardList.append(card);
     }
 

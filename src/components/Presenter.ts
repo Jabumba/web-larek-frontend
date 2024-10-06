@@ -1,5 +1,6 @@
 import { IModel, IItemView, ICard, IPopup, IBaseCard, IBasket } from '../types/index';
 import { CatalogCard, ICardConstructor } from './view/CatalogCard';
+import { IPage } from './view/Page';
 
 // interface IPresenter {
 //     catalogCardTemplate: HTMLTemplateElement;
@@ -28,6 +29,7 @@ export class Presenter {
 
     constructor(
         public model: IModel,
+        protected page: IPage,
         protected basket: IBasket,
 		// protected formConstructor: IFormConstructor,
 		protected catalogCardConstructor: ICardConstructor,
@@ -45,7 +47,7 @@ export class Presenter {
     }
 
     eventOpenCard(card: IBaseCard) {
-        const openedData = this.model.getItem(card.id);
+        const openedData = this.model.getData(card.id);
         const previewCard = new this.previewCardConstructor(this.previewCardTemplate);
         previewCard.setEvent(this.eventAddToBasket.bind(this));
 
@@ -60,23 +62,33 @@ export class Presenter {
     }
 
     eventAddToBasket(card: IBaseCard) {
-        const addData = this.model.getItem(card.id);
+        const addData = this.model.getData(card.id);
         const basketCard = new this.basketCardConstructor(this.basketCardTemplate).render(addData);
         this.basket.addCard(basketCard);
-        // const basket = new this.basketConstructor(this.basketTemplate).render(addData);
-        
+        localStorage.setItem(addData.id, addData.id);
 
-        // const editedItem = this.model.getItem(item.id)
-        // this.todoEditForm.setValue(editedItem.name);
-        // this.modal.content = this.todoEditForm.render();
-        // this.todoEditForm.setHandler((data: string) => this.handleSubmitEditForm(data, item.id))
-        // this.modal.open();
         this.basket.render()
         this.modal.open();
     }
 
+    eventOpenBasket(card: IBaseCard) {
+        // const basketCardData = this.model.getItem(card.id);
+        for (let i = 0; i < localStorage.length; i++) {
+            // console.log(localStorage.key(i), localStorage.getItem(localStorage.key(i)));
+            const selectCardDataId = localStorage.getItem(localStorage.key(i));
+            const selectCardData = this.model.getData(selectCardDataId);
+            const basketCard = new this.basketCardConstructor(this.basketCardTemplate).render(selectCardData);
+            this.basket.addCard(basketCard);
+          }          
+        // const selectcardDataId = localStorage.getItem(card.id)
+        // const selectCardData = this.model.getItem(selectcardDataId);
+        // const basketCard = new this.basketCardConstructor(this.basketCardTemplate).render(selectCardData);
+        this.modal.content = this.basket.render();
+        this.modal.open();
+    }
+
     globalRender() {
-        const cardContainer = document.querySelector('.gallery');
+        this.page.setEventBasketButton(this.eventOpenBasket.bind(this));
 
         const itemList = this.model.items.map((item) => {
             const card = new this.catalogCardConstructor(this.catalogCardTemplate);
@@ -86,6 +98,6 @@ export class Presenter {
             return element;
         })
 
-        cardContainer.replaceChildren(...itemList);
+        this.page.setCardContainer(itemList);
     }
 }

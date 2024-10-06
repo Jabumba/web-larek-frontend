@@ -1,6 +1,6 @@
 export interface IModel {
     items: ICard[];
-    getItem(id: string): ICard;
+    getData(id: string): ICard;
 }
 
 export interface IItemView {
