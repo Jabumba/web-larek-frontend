@@ -12,6 +12,7 @@ export class Basket implements IBasket {
         this.cardList = this.basket.querySelector('.basket__list') as HTMLUListElement;
         this.button = this.basket.querySelector('.button') as HTMLButtonElement;
         this.basketPrice = this.basket.querySelector('.basket__price') as HTMLSpanElement;
+        this.basketPrice.textContent = ' ';
     }
 
     addCard(card: HTMLElement) {
@@ -24,7 +25,8 @@ export class Basket implements IBasket {
         }))
     }
 
-    render(): HTMLElement {
+    render(price: number): HTMLElement {
+        this.basketPrice.textContent = `${price} синапсов`
         return this.basket;
     }
 }

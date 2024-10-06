@@ -51,5 +51,5 @@ export interface IBasket {
 
     addCard(card: HTMLElement): void;
     setEvent(event: Function): void;
-    render(): HTMLElement; 
+    render(price: number): HTMLElement; 
 }

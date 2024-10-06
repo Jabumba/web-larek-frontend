@@ -1,19 +1,7 @@
 import { IModel, IItemView, ICard, IPopup, IBaseCard, IBasket } from '../types/index';
+import { isEmpty } from '../utils/utils';
 import { CatalogCard, ICardConstructor } from './view/CatalogCard';
 import { IPage } from './view/Page';
-
-// interface IPresenter {
-//     catalogCardTemplate: HTMLTemplateElement;
-//     previewCardTemplate: HTMLTemplateElement;
-//     basketCardTemplate: HTMLTemplateElement;
-//     basketTemplate: HTMLTemplateElement;
-//     formOrderTemplate: HTMLTemplateElement;
-//     formContactsTemplate: HTMLTemplateElement;
-//     successTemplate: HTMLTemplateElement;
-
-//     todoForm: IForm;
-// 	todoEditForm: IForm;
-// }
 
 export class Presenter {
     catalogCardTemplate: HTMLTemplateElement;
@@ -51,39 +39,39 @@ export class Presenter {
         const previewCard = new this.previewCardConstructor(this.previewCardTemplate);
         previewCard.setEvent(this.eventAddToBasket.bind(this));
 
-        // const editedItem = this.model.getItem(item.id)
-        // this.todoEditForm.setValue(editedItem.name);
-        // this.modal.content = this.todoEditForm.render();
-        // this.todoEditForm.setHandler((data: string) => this.handleSubmitEditForm(data, item.id))
-        // this.modal.open();
-
         this.modal.content = previewCard.render(openedData);
         this.modal.open();
     }
 
     eventAddToBasket(card: IBaseCard) {
         const addData = this.model.getData(card.id);
-        const basketCard = new this.basketCardConstructor(this.basketCardTemplate).render(addData);
-        this.basket.addCard(basketCard);
-        localStorage.setItem(addData.id, addData.id);
-
-        this.basket.render()
-        this.modal.open();
+        if(isEmpty(localStorage.getItem(addData.id))) {
+            localStorage.setItem(addData.id, `${addData.price}`);
+        }
+        // if(isEmpty(localStorage.getItem(addData.id))) {
+        //     localStorage.setItem(addData.id, addData.id);
+        // }
     }
 
-    eventOpenBasket(card: IBaseCard) {
-        // const basketCardData = this.model.getItem(card.id);
+    eventDeleteFromBasket(card: IBaseCard) {
+        const addData = this.model.getData(card.id);
+        localStorage.removeItem(addData.id);
+        this.eventOpenBasket();
+    }
+
+    eventOpenBasket() {
+        this.basket.cardList.replaceChildren(' ');
+        let actualPrice: number = 0;
         for (let i = 0; i < localStorage.length; i++) {
-            // console.log(localStorage.key(i), localStorage.getItem(localStorage.key(i)));
-            const selectCardDataId = localStorage.getItem(localStorage.key(i));
+            // const selectCardDataId = localStorage.getItem(localStorage.key(i));
+            const selectCardDataId = localStorage.key(i);
             const selectCardData = this.model.getData(selectCardDataId);
-            const basketCard = new this.basketCardConstructor(this.basketCardTemplate).render(selectCardData);
-            this.basket.addCard(basketCard);
-          }          
-        // const selectcardDataId = localStorage.getItem(card.id)
-        // const selectCardData = this.model.getItem(selectcardDataId);
-        // const basketCard = new this.basketCardConstructor(this.basketCardTemplate).render(selectCardData);
-        this.modal.content = this.basket.render();
+            const basketCard = new this.basketCardConstructor(this.basketCardTemplate);
+            basketCard.setEvent(this.eventDeleteFromBasket.bind(this));
+            this.basket.addCard(basketCard.render(selectCardData));
+            actualPrice += Number(localStorage.getItem(selectCardDataId));
+        }
+        this.modal.content = this.basket.render(actualPrice);
         this.modal.open();
     }
 
@@ -93,7 +81,6 @@ export class Presenter {
         const itemList = this.model.items.map((item) => {
             const card = new this.catalogCardConstructor(this.catalogCardTemplate);
             card.setEvent(this.eventOpenCard.bind(this));
-            // todoItem.setEditHandler(this.handleEditItem.bind(this))
             const element = card.render(item);
             return element;
         })

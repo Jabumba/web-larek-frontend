@@ -18,7 +18,7 @@ export class BasketCard extends BaseCard implements IBaseCard {
 
     setEvent(event: Function) {
         this.button.addEventListener('click', (evt)  => {
-            event();
+            event(this);
         });
     }
 

@@ -36,3 +36,5 @@ apiFilter.getCards()
     
     presenter.globalRender()
 })
+
+// localStorage.clear();
