@@ -1,3 +1,12 @@
+import { ApiListResponse } from "../components/base/api";
+
+export interface IApiProduct {
+    api: any;
+    imageAddress: string;
+    getCards(uri: string): Promise<ICard[]>;
+    postOrder(uri: string, data: IOrder): Promise<ISuccessOrder>;
+}
+
 export interface IModel {
     items: ICard[];
     getData(id: string): ICard;
@@ -21,6 +30,20 @@ export interface ICard {
     title: string,
     category: string,
     price: number
+}
+
+export interface IOrder {
+    payment: string,
+    email: string,
+    phone: string,
+    address: string,
+    total: number,
+    items: string[]
+}
+
+export interface ISuccessOrder {
+    id: string,
+    total: number
 }
 
 export interface IBaseCard {

@@ -21,6 +21,7 @@ const basket = new Basket(basketTemplate);
 const page = new Page();
 
 const presenter = new Presenter(
+    apiFilter,
     model,
     page,
     basket,
@@ -30,11 +31,13 @@ const presenter = new Presenter(
     modal
 );
 
-apiFilter.getCards()
+apiFilter.getCards('/product/')
 .then((data) => {
     presenter.model.items = data;
     
     presenter.globalRender()
 })
+
+page.basketButton.querySelector('.header__basket-counter').textContent = `${localStorage.length}`;
 
 // localStorage.clear();

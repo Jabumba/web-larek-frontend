@@ -1,5 +1,6 @@
 import { IModel, IItemView, ICard, IPopup, IBaseCard, IBasket } from '../types/index';
 import { isEmpty } from '../utils/utils';
+import { ApiProduct } from './tools/ApiProduct';
 import { CatalogCard, ICardConstructor } from './view/CatalogCard';
 import { IPage } from './view/Page';
 
@@ -16,6 +17,7 @@ export class Presenter {
 	// todoEditForm: IForm;
 
     constructor(
+        protected api: ApiProduct,
         public model: IModel,
         protected page: IPage,
         protected basket: IBasket,
@@ -44,31 +46,37 @@ export class Presenter {
     }
 
     eventAddToBasket(card: IBaseCard) {
-        const addData = this.model.getData(card.id);
+        let addData = this.model.getData(card.id);
+        if(isEmpty(addData.price)) {
+            addData.price = 0;
+        }
+
         if(isEmpty(localStorage.getItem(addData.id))) {
             localStorage.setItem(addData.id, `${addData.price}`);
         }
-        // if(isEmpty(localStorage.getItem(addData.id))) {
-        //     localStorage.setItem(addData.id, addData.id);
-        // }
+
+        this.page.basketButton.querySelector('.header__basket-counter').textContent = `${localStorage.length}`;
+
+        this.eventOpenCard(card);
     }
 
     eventDeleteFromBasket(card: IBaseCard) {
         const addData = this.model.getData(card.id);
         localStorage.removeItem(addData.id);
         this.eventOpenBasket();
+        this.page.basketButton.querySelector('.header__basket-counter').textContent = `${localStorage.length}`;
     }
 
     eventOpenBasket() {
         this.basket.cardList.replaceChildren(' ');
         let actualPrice: number = 0;
         for (let i = 0; i < localStorage.length; i++) {
-            // const selectCardDataId = localStorage.getItem(localStorage.key(i));
             const selectCardDataId = localStorage.key(i);
             const selectCardData = this.model.getData(selectCardDataId);
-            const basketCard = new this.basketCardConstructor(this.basketCardTemplate);
-            basketCard.setEvent(this.eventDeleteFromBasket.bind(this));
-            this.basket.addCard(basketCard.render(selectCardData));
+            const basketCardClass = new this.basketCardConstructor(this.basketCardTemplate);
+            basketCardClass.setEvent(this.eventDeleteFromBasket.bind(this));
+            const basketCard = basketCardClass.render(selectCardData);
+            this.basket.addCard(basketCard);
             actualPrice += Number(localStorage.getItem(selectCardDataId));
         }
         this.modal.content = this.basket.render(actualPrice);

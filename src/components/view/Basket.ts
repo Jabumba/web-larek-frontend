@@ -2,7 +2,6 @@ import { IBaseCard, IBasket } from "../../types";
 
 export class Basket implements IBasket {
     basket: HTMLDivElement;
-    // cardList: HTMLElement;
     cardList: HTMLUListElement;
     button: HTMLButtonElement;
     basketPrice: HTMLSpanElement;

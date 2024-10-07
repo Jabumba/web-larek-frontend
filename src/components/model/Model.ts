@@ -16,6 +16,6 @@ export class Model implements IModel {
     }
 
     getData(id: string) {
-        return this._items.find(item => item.id === id)
+        return this._items.find(item => item.id === id);
     }
 }

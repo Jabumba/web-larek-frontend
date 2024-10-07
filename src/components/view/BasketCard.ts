@@ -10,9 +10,6 @@ export class BasketCard extends BaseCard implements IBaseCard {
 
     constructor(template: HTMLTemplateElement) {
         super(template);
-        // this.card = template.content.querySelector('.card').cloneNode(true) as HTMLElement;
-        // this.title = this.card.querySelector('.card__title') as HTMLHRElement;
-        // this.price = this.card.querySelector('.card__price') as HTMLSpanElement;
         this.button = this.card.querySelector('.card__button') as HTMLButtonElement;
     }
 
