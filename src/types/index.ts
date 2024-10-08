@@ -7,10 +7,10 @@ export interface IApiProduct {
     postOrder(uri: string, data: IOrder): Promise<ISuccessOrder>;
 }
 
-export interface IModel {
-    items: ICard[];
-    getData(id: string): ICard;
-}
+// export interface IModel {
+//     items: ICard[];
+//     getData(id: string): ICard;
+// }
 
 export interface IItemView {
     element: HTMLElement;

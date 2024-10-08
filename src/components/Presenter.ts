@@ -1,5 +1,6 @@
-import { IModel, IItemView, ICard, IPopup, IBaseCard, IBasket } from '../types/index';
+import { IItemView, ICard, IPopup, IBaseCard, IBasket } from '../types/index';
 import { isEmpty } from '../utils/utils';
+import { Model } from './model/Model';
 import { ApiProduct } from './tools/ApiProduct';
 import { CatalogCard, ICardConstructor } from './view/CatalogCard';
 import { IPage } from './view/Page';
@@ -18,7 +19,7 @@ export class Presenter {
 
     constructor(
         protected api: ApiProduct,
-        public model: IModel,
+        public model: Model,
         protected page: IPage,
         protected basket: IBasket,
 		// protected formConstructor: IFormConstructor,
@@ -39,6 +40,12 @@ export class Presenter {
     eventOpenCard(card: IBaseCard) {
         const openedData = this.model.getData(card.id);
         const previewCard = new this.previewCardConstructor(this.previewCardTemplate);
+        for (let i = 0; i < this.model.getOrderLength(); i++) {
+            const selectId = this.model.getOrder().items[i];
+            if(openedData.id === selectId) {
+                previewCard.card.querySelector('.card__button').setAttribute('disabled', 'true');
+            }
+        }
         previewCard.setEvent(this.eventAddToBasket.bind(this));
 
         this.modal.content = previewCard.render(openedData);
@@ -47,39 +54,54 @@ export class Presenter {
 
     eventAddToBasket(card: IBaseCard) {
         let addData = this.model.getData(card.id);
-        if(isEmpty(addData.price)) {
-            addData.price = 0;
-        }
+        // if(isEmpty(addData.price)) {
+        //     addData.price = 0;
+        // }
 
-        if(isEmpty(localStorage.getItem(addData.id))) {
-            localStorage.setItem(addData.id, `${addData.price}`);
-        }
+        // if(isEmpty(localStorage.getItem(addData.id))) {
+        //     localStorage.setItem(addData.id, `${addData.price}`);
+        // }
 
-        this.page.basketButton.querySelector('.header__basket-counter').textContent = `${localStorage.length}`;
+        this.model.addItem(addData.id);
+
+        // this.page.basketButton.querySelector('.header__basket-counter').textContent = `${localStorage.length}`;
+        this.page.basketButton.querySelector('.header__basket-counter').textContent = `${this.model.getOrderLength()}`;
 
         this.eventOpenCard(card);
     }
 
     eventDeleteFromBasket(card: IBaseCard) {
         const addData = this.model.getData(card.id);
-        localStorage.removeItem(addData.id);
+        // localStorage.removeItem(addData.id);
+        this.model.deleteItem(addData.id);
         this.eventOpenBasket();
-        this.page.basketButton.querySelector('.header__basket-counter').textContent = `${localStorage.length}`;
+        // this.page.basketButton.querySelector('.header__basket-counter').textContent = `${localStorage.length}`;
+        this.page.basketButton.querySelector('.header__basket-counter').textContent = `${this.model.getOrderLength()}`;
     }
 
     eventOpenBasket() {
         this.basket.cardList.replaceChildren(' ');
-        let actualPrice: number = 0;
-        for (let i = 0; i < localStorage.length; i++) {
-            const selectCardDataId = localStorage.key(i);
-            const selectCardData = this.model.getData(selectCardDataId);
+        // let actualPrice: number = 0;
+        // for (let i = 0; i < localStorage.length; i++) {
+        //     const selectCardDataId = localStorage.key(i);
+        //     const selectCardData = this.model.getData(selectCardDataId);
+        //     const basketCardClass = new this.basketCardConstructor(this.basketCardTemplate);
+        //     basketCardClass.setEvent(this.eventDeleteFromBasket.bind(this));
+        //     const basketCard = basketCardClass.render(selectCardData);
+        //     this.basket.addCard(basketCard);
+        //     actualPrice += Number(localStorage.getItem(selectCardDataId));
+        // }
+
+        this.model.getOrder().items.forEach((item) => {
+            const selectCardData = this.model.getData(item);
             const basketCardClass = new this.basketCardConstructor(this.basketCardTemplate);
             basketCardClass.setEvent(this.eventDeleteFromBasket.bind(this));
             const basketCard = basketCardClass.render(selectCardData);
             this.basket.addCard(basketCard);
-            actualPrice += Number(localStorage.getItem(selectCardDataId));
-        }
-        this.modal.content = this.basket.render(actualPrice);
+        })
+
+        // this.modal.content = this.basket.render(actualPrice);
+        this.modal.content = this.basket.render(this.model.getOrder().total);
         this.modal.open();
     }
 
