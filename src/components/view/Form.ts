@@ -14,10 +14,12 @@ export abstract class Form implements IForm {
 		this.form = formTemplate.content.querySelector('.form') as HTMLFormElement;
 		this.submitButton = this.form.querySelector('.button');
 		this.errorField = this.form.querySelector('.form__errors');
-		this.inputList = [...this.form.content.querySelectorAll('.form__input')]; 
-		this.inputList.forEach((input) => {
-			input.addEventListener('input', this.isValid);
-		})
+		this.inputList = [...this.form.querySelectorAll('.form__input')] as HTMLInputElement[];
+		// this.inputList.forEach((input) => {
+		// 	input.addEventListener('input', () => {
+		// 		this.isValid(input);
+		// 	});
+		// })
 	}
 
 	abstract getValue(): string
@@ -33,12 +35,29 @@ export abstract class Form implements IForm {
 		this.form.reset();
 	}
 
-	isValid() {
-		this.inputList.forEach((input) => {
-			if(input.value = ' ') {
-				this.errorField.textContent = `Заполните поле ${input.name}`;
-			}
-		})
+	// isValid() {
+	// 	this.inputList.forEach((input) => {
+	// 		console.log(input.value);
+	// 		if(input.value === ' ') {
+	// 			this.errorField.textContent = `Заполните поле ${input.name}`;
+	// 		}
+	// 	})
+	// }
+
+	abstract isValidForm(): boolean
+
+	isValid(element: HTMLInputElement) {
+		// this.inputList.forEach((input) => {
+		// 	console.log(input.value);
+		// 	if(input.value === ' ') {
+		// 		this.errorField.textContent = `Заполните поле ${input.name}`;
+		// 	}
+		// })
+
+		if(element.value === ' ') {
+			this.errorField.textContent = `Заполните поле ${element.name}`;
+			return false
+		}
 	}
 
 	render() {

@@ -19,7 +19,9 @@ export interface IForm {
 
 	clearValue(): void;
 
-	isValid(): void;
+	isValid(element: HTMLInputElement): boolean;
+
+    isValidForm(): boolean
 
 	render(): HTMLFormElement;
 }
@@ -50,16 +52,16 @@ export interface ICard {
 }
 
 export interface IOrder {
-    payment: string,
-    email: string,
-    phone: string,
-    address: string,
-    total: number,
+    payment: string
+    email: string
+    phone: string
+    address: string
+    total: number
     items: string[]
 }
 
 export interface ISuccessOrder {
-    id: string,
+    id: string
     total: number
 }
 

@@ -2,14 +2,20 @@ import { IForm } from "../../types";
 import { Form } from "./Form";
 
 export class ContactsForm extends Form implements IForm {
-	protected inputAddressField: HTMLInputElement;
+	protected inputEmailField: HTMLInputElement;
+	protected inputPhoneField: HTMLInputElement;
 
 	constructor(formTemplate: HTMLTemplateElement) {
 		super(formTemplate);
-		this.inputAddressField = this.form.querySelector('.form__input');
+		this.inputEmailField = this.form.getElementsByName('email');
+		this.inputPhoneField = this.form.getElementsByName('phone');
+	}
+
+	isValidForm() {
+        return this.isValid(this.inputEmailField) && this.isValid(this.inputPhoneField)
 	}
 
 	getValue() {
-		return this.inputAddressField.value;
+		return this.inputEmailField.value;
 	}
 }

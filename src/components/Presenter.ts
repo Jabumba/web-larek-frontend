@@ -48,11 +48,17 @@ export class Presenter {
     }
 
     eventSubmitOrderForm() {
-
+        if(this.orderForm.isValidForm()) {
+            
+        } else {
+            this.orderForm.errorField.textContent = 'заполните все поля';
+        }
     }
 
     eventSubmitContactsForm() {
-
+        if(this.contactsForm.isValidForm()) {
+            
+        }
     }
 
     eventOpenCard(card: IBaseCard) {

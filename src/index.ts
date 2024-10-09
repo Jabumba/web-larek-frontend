@@ -12,6 +12,7 @@ import { Basket } from './components/view/Basket';
 import { IBasket } from './types';
 import { Page } from './components/view/Page';
 import { ContactsForm } from './components/view/ContactsForm';
+import { OrderForm } from './components/view/OrderForm';
 const basketTemplate = document.querySelector('#basket') as HTMLTemplateElement;
 const modalContainer = document.querySelector('#modal-container') as HTMLDivElement;
 const api = new Api(API_URL);
@@ -33,7 +34,7 @@ const presenter = new Presenter(
     BasketCard,
     modal
 );
-
+presenter.init();
 apiFilter.getCards('/product/')
 .then((data) => {
     presenter.model.items = data;
