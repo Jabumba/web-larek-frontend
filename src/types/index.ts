@@ -7,6 +7,23 @@ export interface IApiProduct {
     postOrder(uri: string, data: IOrder): Promise<ISuccessOrder>;
 }
 
+export interface IForm {
+    form: HTMLFormElement;
+	submitButton: HTMLButtonElement;
+	errorField: HTMLSpanElement;
+	inputList: HTMLInputElement[];
+
+    getValue(): string;
+
+	setSubmitEvent(event: Function): void;
+
+	clearValue(): void;
+
+	isValid(): void;
+
+	render(): HTMLFormElement;
+}
+
 // export interface IModel {
 //     items: ICard[];
 //     getData(id: string): ICard;

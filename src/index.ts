@@ -11,6 +11,7 @@ import { Popup } from './components/view/Popup';
 import { Basket } from './components/view/Basket';
 import { IBasket } from './types';
 import { Page } from './components/view/Page';
+import { ContactsForm } from './components/view/ContactsForm';
 const basketTemplate = document.querySelector('#basket') as HTMLTemplateElement;
 const modalContainer = document.querySelector('#modal-container') as HTMLDivElement;
 const api = new Api(API_URL);
@@ -25,6 +26,8 @@ const presenter = new Presenter(
     model,
     page,
     basket,
+    OrderForm,
+    ContactsForm,
     CatalogCard,
     PreviewCard,
     BasketCard,

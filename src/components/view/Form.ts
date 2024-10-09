@@ -1,48 +1,47 @@
-export class Form {
-	protected formElement: HTMLFormElement;
-	protected inputField: HTMLInputElement;
-	protected handleFormSubmit: Function;
-	protected submitButton: HTMLButtonElement;
+import { IForm } from "../../types";
+
+export interface IFormConstructor {
+    new (template: HTMLTemplateElement): IForm
+}
+
+export abstract class Form implements IForm {
+	form: HTMLFormElement;
+	submitButton: HTMLButtonElement;
+	errorField: HTMLSpanElement;
+	inputList: HTMLInputElement[];
 
 	constructor(formTemplate: HTMLTemplateElement) {
-		this.formElement = formTemplate.content
-			.querySelector('.todos__form')
-			.cloneNode(true) as HTMLFormElement;
-		this.inputField = this.formElement.querySelector('.todo-form__input');
-		this.submitButton = this.formElement.querySelector(
-			'.todo-form__submit-btn'
-		);
-		this.formElement.addEventListener('submit', (evt) => {
-			evt.preventDefault();
-			this.handleFormSubmit(this.inputField.value);
-		});
+		this.form = formTemplate.content.querySelector('.form') as HTMLFormElement;
+		this.submitButton = this.form.querySelector('.button');
+		this.errorField = this.form.querySelector('.form__errors');
+		this.inputList = [...this.form.content.querySelectorAll('.form__input')]; 
+		this.inputList.forEach((input) => {
+			input.addEventListener('input', this.isValid);
+		})
 	}
 
-	setHandler(handleFormSubmit: Function) {
-		this.handleFormSubmit = handleFormSubmit;
+	abstract getValue(): string
+
+	setSubmitEvent(event: Function) {
+        this.form.addEventListener('submit', ((evt) => {
+			evt.preventDefault();
+            event(this);
+        }))
+    }
+
+	clearValue() {
+		this.form.reset();
+	}
+
+	isValid() {
+		this.inputList.forEach((input) => {
+			if(input.value = ' ') {
+				this.errorField.textContent = `Заполните поле ${input.name}`;
+			}
+		})
 	}
 
 	render() {
-		return this.formElement;
-	}
-
-	setValue(data: string) {
-		this.inputField.value = data;
-	}
-
-	getValue() {
-		return this.inputField.value;
-	}
-
-	clearValue() {
-		this.formElement.reset();
-	}
-
-	set buttonText(data: string) {
-		this.submitButton.textContent = data;
-	}
-
-	set placeholder(data: string) {
-		this.inputField.placeholder = data;
+		return this.form;
 	}
 }
