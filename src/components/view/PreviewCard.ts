@@ -28,13 +28,6 @@ export class PreviewCard extends BaseCard implements IBaseCard {
         this.category.textContent = data.category;
         this.image.src = `${data.image}`;
 
-        // for (let i = 0; i < localStorage.length; i++) {
-        //     const selectCardDataId = localStorage.key(i);
-        //     if(this._id === selectCardDataId) {
-        //         this.button.setAttribute('disabled', 'true');
-        //     }
-        // }
-
         switch (data.category) {
             case 'софт-скил':
                 this.category.classList.remove('card__category_other');

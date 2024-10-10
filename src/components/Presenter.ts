@@ -96,6 +96,12 @@ export class Presenter {
                 previewCard.card.querySelector('.card__button').setAttribute('disabled', 'true');
             }
         }
+
+        if(isEmpty(openedData.price)) {
+            previewCard.card.querySelector('.card__button').setAttribute('disabled', 'true');
+            previewCard.card.querySelector('.card__button').textContent = 'Бесценно';
+        }
+
         previewCard.setEvent(this.eventAddToBasket.bind(this));
 
         this.modal.content = previewCard.render(openedData);
@@ -122,9 +128,10 @@ export class Presenter {
     eventOpenBasket() {
         this.basket.cardList.replaceChildren(' ');
 
-        this.model.getOrder().items.forEach((item) => {
+        this.model.getOrder().items.forEach((item, index) => {
             const selectCardData = this.model.getData(item);
             const basketCardClass = new this.basketCardConstructor(this.basketCardTemplate);
+            basketCardClass.setIndex((index += 1).toString());
             basketCardClass.setEvent(this.eventDeleteFromBasket.bind(this));
             const basketCard = basketCardClass.render(selectCardData);
             this.basket.addCard(basketCard);

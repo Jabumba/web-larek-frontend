@@ -6,11 +6,17 @@ export interface ICardConstructor {
 }
 
 export class BasketCard extends BaseCard implements IBaseCard {
+    protected index: HTMLSpanElement;
     protected button: HTMLButtonElement;
 
     constructor(template: HTMLTemplateElement) {
         super(template);
         this.button = this.card.querySelector('.card__button') as HTMLButtonElement;
+        this.index = this.card.querySelector('.basket__item-index') as HTMLSpanElement;
+    }
+
+    setIndex(index: string) {
+        this.index.textContent = index;
     }
 
     setEvent(event: Function) {

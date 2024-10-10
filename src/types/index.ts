@@ -69,6 +69,7 @@ export interface IBaseCard {
     id: string;
 
     setEvent(event: Function): void;
+    setIndex?(index: string): void;
     render(data: ICard): HTMLElement
 }
 
