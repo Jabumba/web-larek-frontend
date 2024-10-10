@@ -23,17 +23,10 @@ export interface IForm {
 
 	clearValue(): void;
 
-	// isValid(element: HTMLInputElement): boolean;
-
     isValidForm(): boolean
 
 	render(): HTMLFormElement;
 }
-
-// export interface IModel {
-//     items: ICard[];
-//     getData(id: string): ICard;
-// }
 
 export interface IItemView {
     element: HTMLElement;
@@ -98,4 +91,12 @@ export interface IBasket {
     addCard(card: HTMLElement): void;
     setEvent(event: Function): void;
     render(price: number): HTMLElement; 
+}
+
+export interface IOrderResult {
+    orderElement: HTMLDivElement;
+    totalElement: HTMLParagraphElement;
+    button: HTMLButtonElement;
+    
+    render(total: number): HTMLDivElement
 }

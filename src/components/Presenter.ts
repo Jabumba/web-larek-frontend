@@ -1,4 +1,4 @@
-import { IPopup, IBaseCard, IBasket, IForm } from '../types/index';
+import { IPopup, IBaseCard, IBasket, IForm, IOrderResult } from '../types/index';
 import { isEmpty } from '../utils/utils';
 import { Model } from './model/Model';
 import { ApiProduct } from './tools/ApiProduct';
@@ -13,13 +13,12 @@ export class Presenter {
     basketTemplate: HTMLTemplateElement;
     orderFormTemplate: HTMLTemplateElement;
     contactsFormTemplate: HTMLTemplateElement;
-    successTemplate: HTMLTemplateElement;
 
     protected orderForm: IForm;
 	protected contactsForm: IForm;
 
     constructor(
-        protected api: ApiProduct,
+        protected apiProduct: ApiProduct,
         public model: Model,
         protected page: IPage,
         protected basket: IBasket,
@@ -28,7 +27,8 @@ export class Presenter {
 		protected catalogCardConstructor: ICardConstructor,
         protected previewCardConstructor: ICardConstructor,
         protected basketCardConstructor: ICardConstructor,
-		protected modal: IPopup
+		protected modal: IPopup,
+        protected orderResult: IOrderResult
     ) {
         this.catalogCardTemplate = document.querySelector('#card-catalog') as HTMLTemplateElement;
         this.previewCardTemplate = document.querySelector('#card-preview') as HTMLTemplateElement;
@@ -36,7 +36,6 @@ export class Presenter {
         this.basketTemplate = document.querySelector('#basket') as HTMLTemplateElement;
         this.orderFormTemplate = document.querySelector('#order') as HTMLTemplateElement;
         this.contactsFormTemplate = document.querySelector('#contacts') as HTMLTemplateElement;
-        this.successTemplate = document.querySelector('#success') as HTMLTemplateElement;
     }
 
     init() {
@@ -62,18 +61,30 @@ export class Presenter {
         this.model.setPayment(orderData.payment);
         this.model.setAddress(orderData.address);
         this.eventOpenContactsForm();
-        console.log('submit');
     }
 
     eventSubmitContactsForm() {
-        const contactsData = this.orderForm.getValue();
+        const contactsData = this.contactsForm.getValue();
         this.model.setEmail(contactsData.email);
         this.model.setPhone(contactsData.phone);
-        this.eventOpenSuccessOrder();
+        this.eventOpenOrderResult();
     }
 
-    eventOpenSuccessOrder() {
-        console.log(this.model.getOrder());
+    eventOpenOrderResult() {
+        this.apiProduct.postOrder('/order', this.model.getOrder())
+        .then((data) => {
+            this.orderResult.button.addEventListener('click', () => {
+                this.modal.close()
+            })
+            this.modal.content = this.orderResult.render(data.total)
+            this.modal.open();
+        })
+        .catch((mistake) => {
+            console.error(mistake);
+        })
+
+        this.model.clear();
+        this.page.basketButton.querySelector('.header__basket-counter').textContent = `0`;
     }
 
     eventOpenCard(card: IBaseCard) {

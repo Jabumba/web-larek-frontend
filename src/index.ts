@@ -13,14 +13,19 @@ import { IBasket } from './types';
 import { Page } from './components/view/Page';
 import { ContactsForm } from './components/view/ContactsForm';
 import { OrderForm } from './components/view/OrderForm';
+import { OrderResult } from './components/view/OrderResult';
+
 const basketTemplate = document.querySelector('#basket') as HTMLTemplateElement;
 const modalContainer = document.querySelector('#modal-container') as HTMLDivElement;
+const orderResultTemplate = document.querySelector('#success') as HTMLTemplateElement;
+
 const api = new Api(API_URL);
 const apiFilter = new ApiProduct(api, CDN_URL);
 const model = new Model();
 const modal = new Popup(modalContainer);
 const basket = new Basket(basketTemplate);
 const page = new Page();
+const orderResult = new OrderResult(orderResultTemplate);
 
 const presenter = new Presenter(
     apiFilter,
@@ -32,7 +37,8 @@ const presenter = new Presenter(
     CatalogCard,
     PreviewCard,
     BasketCard,
-    modal
+    modal,
+    orderResult
 );
 presenter.init();
 apiFilter.getCards('/product/')
@@ -41,7 +47,10 @@ apiFilter.getCards('/product/')
     
     presenter.globalRender()
 })
+.catch((mistake) => {
+    console.error(mistake);
+})
 
-page.basketButton.querySelector('.header__basket-counter').textContent = `${localStorage.length}`;
+// page.basketButton.querySelector('.header__basket-counter').textContent = `${localStorage.length}`;
 
 // localStorage.clear();

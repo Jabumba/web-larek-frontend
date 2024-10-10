@@ -31,36 +31,36 @@ export class Model {
         return this._items
     }
 
-    public setPayment(payment: string) {
+    setPayment(payment: string) {
         this.order.payment = payment;
     
         return this
     }
     
-    public setEmail(email: string) {
+    setEmail(email: string) {
         this.order.email = email;
         
         return this
     }
     
-    public setPhone(phone: string) {
+    setPhone(phone: string) {
         this.order.phone = phone;
         
         return this
     }
 
-    public setAddress(address: string) {
+    setAddress(address: string) {
         this.order.address = address;
         
         return this
     }
 
-    public setTotal(total: number) {
+    setTotal(total: number) {
         this.order.total = total;
         return this
     }
 
-    public addItem(orderItem: string) {
+    addItem(orderItem: string) {
         if(this.order.items.includes(orderItem) === false) {
             this.order.items.push(orderItem);
         }
@@ -70,7 +70,7 @@ export class Model {
         return this
     }
 
-    public deleteItem(orderItem: string) {
+    deleteItem(orderItem: string) {
         const correctArray = this.order.items.filter((item) => item !== orderItem);
 
         this.order.items = correctArray;
@@ -92,8 +92,12 @@ export class Model {
         this.order.total = actualPrice;
     }
 
-    public getOrder(): Order {
+    getOrder() {
         return this.order
+    }
+
+    clear() {
+        this.order = new Order();
     }
 
     getData(id: string) {

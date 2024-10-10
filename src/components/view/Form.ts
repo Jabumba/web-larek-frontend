@@ -19,15 +19,16 @@ export abstract class Form implements IForm {
 		this.inputList.forEach((input) => {
 			input.addEventListener('input', () => {
 				if(this.isValidForm()) {
-					console.log('условия выполняются');
-					// this.submitButton = this.submitButton.cloneNode(true) as HTMLButtonElement;
+					this.submitButton.removeAttribute('onclick'); 
 					this.errorField.textContent = '';
 					this.submitButton.removeAttribute('disabled');
-					this.submitButton.addEventListener('click', this.eventSubmit);
+					this.submitButton.onclick = (evt) => {
+						evt.preventDefault();
+						this.eventSubmit();
+					}
 				} else {
-					console.log('условия не выполняются');
 					this.errorField.textContent = 'Заполните все поля';
-					this.submitButton.setAttribute('disabled', '');
+					this.submitButton.setAttribute('disabled', 'true');
 				}
 			})
 		})
