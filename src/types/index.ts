@@ -11,15 +11,19 @@ export interface IForm {
     form: HTMLFormElement;
 	submitButton: HTMLButtonElement;
 	errorField: HTMLSpanElement;
-	inputList: HTMLInputElement[];
 
-    getValue(): string;
+    getValue(): {
+        payment?: string,
+        address?: string,
+        email?: string,
+        phone?: string
+     };
 
-	setSubmitEvent(event: Function): void;
+	setEventSubmit(event: Function): void;
 
 	clearValue(): void;
 
-	isValid(element: HTMLInputElement): boolean;
+	// isValid(element: HTMLInputElement): boolean;
 
     isValidForm(): boolean
 

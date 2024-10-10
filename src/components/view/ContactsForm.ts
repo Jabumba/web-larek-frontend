@@ -7,15 +7,30 @@ export class ContactsForm extends Form implements IForm {
 
 	constructor(formTemplate: HTMLTemplateElement) {
 		super(formTemplate);
-		this.inputEmailField = this.form.getElementsByName('email');
-		this.inputPhoneField = this.form.getElementsByName('phone');
+		this.submitButton = this.form.querySelector('.button');
+		// this.inputEmailField = this.form.getElementsByName('email');
+		// this.inputPhoneField = this.form.getElementsByName('phone');
+		// {this.inputEmailField, this.inputPhoneField} = ...this.inputList;
+		this.inputList.filter((input) => {
+			switch (input.name) {
+				case 'email':
+					this.inputEmailField = input;
+					break;
+				case 'phone':
+					this.inputPhoneField = input;
+					break
+			}
+		})
 	}
 
 	isValidForm() {
-        return this.isValid(this.inputEmailField) && this.isValid(this.inputPhoneField)
+		return this.inputEmailField.value.length !== 0 && this.inputPhoneField.value.length !== 0 ? true : false
 	}
 
 	getValue() {
-		return this.inputEmailField.value;
+		return {
+			email: this.inputEmailField.value,
+			phone: this.inputPhoneField.value
+		}
 	}
 }

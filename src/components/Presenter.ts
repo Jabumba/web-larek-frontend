@@ -41,24 +41,39 @@ export class Presenter {
 
     init() {
         this.orderForm = new this.orderFormConstructor(this.orderFormTemplate);
-        this.orderForm.setSubmitEvent(this.eventSubmitOrderForm.bind(this));
+        this.orderForm.setEventSubmit(this.eventSubmitOrderForm.bind(this));
 
         this.contactsForm = new this.contactsFormConstructor(this.contactsFormTemplate);
-        this.contactsForm.setSubmitEvent(this.eventSubmitContactsForm.bind(this));
+        this.contactsForm.setEventSubmit(this.eventSubmitContactsForm.bind(this));
+    }
+
+    eventOpenOrderForm() {
+        this.modal.content = this.orderForm.render();
+        this.modal.open();
+    }
+
+    eventOpenContactsForm() {
+        this.modal.content = this.contactsForm.render();
+        this.modal.open();
     }
 
     eventSubmitOrderForm() {
-        if(this.orderForm.isValidForm()) {
-            
-        } else {
-            this.orderForm.errorField.textContent = 'заполните все поля';
-        }
+        const orderData = this.orderForm.getValue();
+        this.model.setPayment(orderData.payment);
+        this.model.setAddress(orderData.address);
+        this.eventOpenContactsForm();
+        console.log('submit');
     }
 
     eventSubmitContactsForm() {
-        if(this.contactsForm.isValidForm()) {
-            
-        }
+        const contactsData = this.orderForm.getValue();
+        this.model.setEmail(contactsData.email);
+        this.model.setPhone(contactsData.phone);
+        this.eventOpenSuccessOrder();
+    }
+
+    eventOpenSuccessOrder() {
+        console.log(this.model.getOrder());
     }
 
     eventOpenCard(card: IBaseCard) {
@@ -113,11 +128,6 @@ export class Presenter {
         }
 
         this.modal.content = this.basket.render(this.model.getOrder().total);
-        this.modal.open();
-    }
-
-    eventOpenOrderForm() {
-        this.modal.content = this.orderForm.render();
         this.modal.open();
     }
 
