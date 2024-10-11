@@ -79,8 +79,8 @@ export class Presenter {
             this.modal.content = this.orderResult.render(data.total)
             this.modal.open();
         })
-        .catch((mistake) => {
-            console.error(mistake);
+        .catch((error) => {
+            console.error(error);
         })
 
         this.model.clear();

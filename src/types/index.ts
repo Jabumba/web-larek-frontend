@@ -1,10 +1,8 @@
-import { ApiListResponse } from "../components/base/api";
-
 export interface IApiProduct {
     api: any;
     imageAddress: string;
-    getCards(uri: string): Promise<ICard[]>;
-    postOrder(uri: string, data: IOrder): Promise<ISuccessOrder>;
+    getCards(uri: string): Promise<ICard[]>
+    postOrder(uri: string, data: IOrder): Promise<ISuccessOrder>
 }
 
 export interface IForm {
@@ -17,15 +15,11 @@ export interface IForm {
         address?: string,
         email?: string,
         phone?: string
-     };
-
-	setEventSubmit(event: Function): void;
-
-	clearValue(): void;
-
+    }
+	setEventSubmit(event: Function): void
+	clearValue(): void
     isValidForm(): boolean
-
-	render(): HTMLFormElement;
+	render(): HTMLFormElement
 }
 
 export interface IItemView {
@@ -36,15 +30,15 @@ export interface IItemView {
     image?: HTMLImageElement;
     price: HTMLSpanElement;
 
-    render(data: ICard): HTMLElement;
+    render(data: ICard): HTMLElement
 }
 
 export interface ICard {
-    id: string,
-    description: string,
-    image: string,
-    title: string,
-    category: string,
+    id: string
+    description: string
+    image: string
+    title: string
+    category: string
     price: number
 }
 
@@ -68,8 +62,8 @@ export interface IBaseCard {
     price: HTMLSpanElement;
     id: string;
 
-    setEvent(event: Function): void;
-    setIndex?(index: string): void;
+    setEvent(event: Function): void
+    setIndex?(index: string): void
     render(data: ICard): HTMLElement
 }
 
@@ -79,8 +73,8 @@ export interface IPopup {
     buttonClose: HTMLButtonElement;
     content: HTMLElement;
 
-    open(): void;
-    close(): void;
+    open(): void
+    close(): void
 }
 
 export interface IBasket {
@@ -89,9 +83,9 @@ export interface IBasket {
     button: HTMLButtonElement;
     basketPrice: HTMLSpanElement;
 
-    addCard(card: HTMLElement): void;
-    setEvent(event: Function): void;
-    render(price: number): HTMLElement; 
+    addCard(card: HTMLElement): void
+    setEvent(event: Function): void
+    render(price: number): HTMLElement
 }
 
 export interface IOrderResult {

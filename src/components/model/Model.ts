@@ -1,4 +1,4 @@
-import { ICard, IOrder } from "../../types";
+import { ICard } from "../../types";
 
 class Order {
     public payment: string;

@@ -22,7 +22,7 @@ export class CatalogCard extends BaseCard implements IBaseCard {
         }))
     }
 
-    render(data: ICard): HTMLElement {
+    render(data: ICard) {
         super.render(data);
 
         this.category.textContent = data.category;

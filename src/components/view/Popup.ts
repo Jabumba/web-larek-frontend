@@ -25,10 +25,6 @@ export class Popup implements IPopup {
         this._content.replaceChildren(el);
     }
 
-    // changeVisibility() {
-    //     this.container.classList.toggle('modal_active')
-    // }
-
     open() {
 		this.modal.classList.add('modal_active');
 	}

@@ -25,7 +25,7 @@ export class BasketCard extends BaseCard implements IBaseCard {
         });
     }
 
-    render(data: ICard): HTMLElement {
+    render(data: ICard) {
         super.render(data);
         return this.card;
     }

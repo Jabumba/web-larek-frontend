@@ -1,5 +1,5 @@
 import './scss/styles.scss';
-import { ApiListResponse, ApiPostMethods, Api } from './components/base/api';
+import { Api } from './components/base/api';
 import { ApiProduct } from './components/tools/ApiProduct';
 import { API_URL, CDN_URL } from './utils/constants';
 import { Model } from './components/model/Model';
@@ -45,12 +45,8 @@ apiFilter.getCards('/product/')
 .then((data) => {
     presenter.model.items = data;
     
-    presenter.globalRender()
+    presenter.globalRender();
 })
 .catch((mistake) => {
     console.error(mistake);
 })
-
-// page.basketButton.querySelector('.header__basket-counter').textContent = `${localStorage.length}`;
-
-// localStorage.clear();

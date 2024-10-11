@@ -1,8 +1,4 @@
-import { IBaseCard, IBasket } from "../../types";
-
-// export interface IBasketConstructor {
-//     new (template: HTMLTemplateElement): IBasket
-// }
+import { IBasket } from "../../types";
 
 export class Basket implements IBasket {
     basket: HTMLDivElement;
