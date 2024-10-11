@@ -1,10 +1,9 @@
-import { IPopup, IBaseCard, IBasket, IForm, IOrderResult } from '../types/index';
+import { IPopup, IBaseCard, IBasket, IForm, IOrderResult, IPage } from '../types/index';
 import { isEmpty } from '../utils/utils';
 import { Model } from './model/Model';
 import { ApiProduct } from './tools/ApiProduct';
-import { ICardConstructor } from './view/CatalogCard';
-import { IFormConstructor } from './view/Form';
-import { IPage } from './view/Page';
+import { ICardConstructor } from './view/cards/CatalogCard';
+import { IFormConstructor } from './view/forms/Form';
 
 export class Presenter {
     catalogCardTemplate: HTMLTemplateElement;

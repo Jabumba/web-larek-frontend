@@ -1,4 +1,4 @@
-import { IBaseCard, ICard } from "../../types";
+import { IBaseCard, ICard } from "../../../types";
 import { BaseCard } from "./BaseCard";
 
 export interface ICardConstructor {

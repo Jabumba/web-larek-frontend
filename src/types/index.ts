@@ -4,6 +4,13 @@ export interface IApiProduct {
     getCards(uri: string): Promise<ICard[]>
     postOrder(uri: string, data: IOrder): Promise<ISuccessOrder>
 }
+export interface IPage {
+    basketButton: HTMLButtonElement;
+    cardContainer: HTMLElement; 
+
+    setCardContainer(cards: HTMLElement[]): void;
+    setEventBasketButton(event: Function): void;
+}
 
 export interface IForm {
     form: HTMLFormElement;

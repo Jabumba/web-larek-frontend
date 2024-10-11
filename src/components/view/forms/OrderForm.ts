@@ -1,4 +1,4 @@
-import { IForm } from "../../types";
+import { IForm } from "../../../types";
 import { Form } from "./Form";
 
 export class OrderForm extends Form implements IForm {

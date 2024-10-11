@@ -1,6 +1,6 @@
-import { ICard } from "../../types";
+import { ICard, IOrder } from "../../types";
 
-class Order {
+class Order implements IOrder {
     public payment: string;
     public email: string;
     public phone: string;
@@ -16,7 +16,7 @@ class Order {
 
 export class Model {
     protected _items: ICard[];
-    private order: Order;
+    private order: IOrder;
 
     constructor() {
         this._items = [];

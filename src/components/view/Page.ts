@@ -1,10 +1,4 @@
-export interface IPage {
-    basketButton: HTMLButtonElement;
-    cardContainer: HTMLElement; 
-
-    setCardContainer(cards: HTMLElement[]): void;
-    setEventBasketButton(event: Function): void;
-}
+import { IPage } from "../../types";
 
 export class Page implements IPage {
     basketButton: HTMLButtonElement;

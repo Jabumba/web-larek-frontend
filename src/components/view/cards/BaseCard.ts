@@ -1,4 +1,4 @@
-import { IBaseCard, ICard } from "../../types";
+import { IBaseCard, ICard } from "../../../types";
 
 export abstract class BaseCard implements IBaseCard {
     card: HTMLElement;
