@@ -19,6 +19,12 @@ export class ContactsForm extends Form implements IForm {
 					break
 			}
 		})
+
+		this.submitButton.addEventListener('submit', (evt) => {
+			console.log('форма');
+			evt.preventDefault();
+			this.eventSubmit();
+		})
 	}
 
 	isValidForm() {

@@ -1,4 +1,5 @@
 import { IBaseCard, ICard } from "../../../types";
+import { isEmpty } from "../../../utils/utils";
 import { BaseCard } from "./BaseCard";
 
 export class PreviewCard extends BaseCard implements IBaseCard {
@@ -20,6 +21,17 @@ export class PreviewCard extends BaseCard implements IBaseCard {
         this.card.addEventListener('click', ((evt) => {
             event(this);
         }))
+    }
+
+    changeButtonStatus(openedData: ICard, selectId?: string) {
+        if(openedData.id === selectId) {
+            this.card.querySelector('.card__button').setAttribute('disabled', 'true');
+        }
+
+        if(isEmpty(openedData.price)) {
+            this.card.querySelector('.card__button').setAttribute('disabled', 'true');
+            this.card.querySelector('.card__button').textContent = 'Бесценно';
+        }
     }
 
     render(data: ICard): HTMLElement {

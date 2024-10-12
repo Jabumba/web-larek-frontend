@@ -1,8 +1,8 @@
 import { IApiProduct, ICard, IOrder, ISuccessOrder } from "../../types";
-import { ApiListResponse } from "../base/api";
+import { Api, ApiListResponse } from "../base/api";
 
 export class ApiProduct implements IApiProduct {
-    api: any;
+    api: Api;
     protected _imageAddress: string;
 
     constructor(api: any, address: string) {

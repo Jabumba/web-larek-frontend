@@ -21,6 +21,12 @@ export class OrderForm extends Form implements IForm {
 				button.classList.add('button_alt-active');
 			})
 		})
+
+		this.submitButton.addEventListener('submit', (evt) => {
+			console.log('форма');
+			evt.preventDefault()
+			this.eventSubmit();
+		})
 	}
 
 	isValidForm() {

@@ -13,7 +13,6 @@ import { Page } from './components/view/Page';
 import { ContactsForm } from './components/view/forms/ContactsForm';
 import { OrderForm } from './components/view/forms/OrderForm';
 import { OrderResult } from './components/view/OrderResult';
-
 const basketTemplate = document.querySelector('#basket') as HTMLTemplateElement;
 const modalContainer = document.querySelector('#modal-container') as HTMLDivElement;
 const orderResultTemplate = document.querySelector('#success') as HTMLTemplateElement;

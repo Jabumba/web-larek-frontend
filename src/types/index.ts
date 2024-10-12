@@ -1,5 +1,7 @@
+import { Api } from "../components/base/api";
+
 export interface IApiProduct {
-    api: any;
+    api: Api;
     imageAddress: string;
     getCards(uri: string): Promise<ICard[]>
     postOrder(uri: string, data: IOrder): Promise<ISuccessOrder>
@@ -9,6 +11,7 @@ export interface IPage {
     cardContainer: HTMLElement; 
 
     setCardContainer(cards: HTMLElement[]): void;
+    setBasketLength(length: number): void
     setEventBasketButton(event: Function): void;
 }
 
@@ -16,7 +19,12 @@ export interface IForm {
     form: HTMLFormElement;
 	submitButton: HTMLButtonElement;
 	errorField: HTMLSpanElement;
+    inputList: HTMLInputElement[];
+	eventSubmit: Function;
+	eventInput: Function;
 
+    submitOn(): void
+	submitOff(): void
     getValue(): {
         payment?: string,
         address?: string,
@@ -24,6 +32,7 @@ export interface IForm {
         phone?: string
     }
 	setEventSubmit(event: Function): void
+    setEventInput(event: Function): void
 	clearValue(): void
     isValidForm(): boolean
 	render(): HTMLFormElement
@@ -71,6 +80,7 @@ export interface IBaseCard {
 
     setEvent(event: Function): void
     setIndex?(index: string): void
+    changeButtonStatus?(openedData: ICard, selectId?: string): void
     render(data: ICard): HTMLElement
 }
 
@@ -91,6 +101,8 @@ export interface IBasket {
     basketPrice: HTMLSpanElement;
 
     addCard(card: HTMLElement): void
+    clear(): void
+    changeButtonStatus(length: number): void
     setEvent(event: Function): void
     render(price: number): HTMLElement
 }
@@ -101,4 +113,5 @@ export interface IOrderResult {
     button: HTMLButtonElement;
     
     render(total: number): HTMLDivElement
+    setEvent(event: Function): void
 }

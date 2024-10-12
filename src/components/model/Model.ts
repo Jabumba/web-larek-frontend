@@ -1,18 +1,19 @@
 import { ICard, IOrder } from "../../types";
+import { isEmpty } from "../../utils/utils";
 
-class Order implements IOrder {
-    public payment: string;
-    public email: string;
-    public phone: string;
-    public address: string;
-    public total: number;
-    public items: string[];
+// class Order implements IOrder {
+    // public payment: string;
+    // public email: string;
+    // public phone: string;
+    // public address: string;
+    // public total: number;
+    // public items: string[];
 
-    constructor() {
-        this.total = 0;
-        this.items = []
-    }
-}
+//     constructor() {
+//         this.total = 0;
+//         this.items = []
+//     }
+// }
 
 export class Model {
     protected _items: ICard[];
@@ -20,7 +21,14 @@ export class Model {
 
     constructor() {
         this._items = [];
-        this.order = new Order();
+        this.order = {
+            payment: '',
+            email: '',
+            phone: '',
+            address: '',
+            total: 0,
+            items: []
+        };
     }
 
     set items(data: ICard[]) {
@@ -32,32 +40,21 @@ export class Model {
     }
 
     setPayment(payment: string) {
-        this.order.payment = payment;
-    
-        return this
+        if(!isEmpty(payment)) {
+            this.order.payment = payment;
+        }
     }
     
     setEmail(email: string) {
         this.order.email = email;
-        
-        return this
     }
     
-    setPhone(phone: string) {
+    setPhone(phone: any) {
         this.order.phone = phone;
-        
-        return this
     }
 
     setAddress(address: string) {
         this.order.address = address;
-        
-        return this
-    }
-
-    setTotal(total: number) {
-        this.order.total = total;
-        return this
     }
 
     addItem(orderItem: string) {
@@ -66,8 +63,6 @@ export class Model {
         }
 
         this.changeTotal();
-        
-        return this
     }
 
     deleteItem(orderItem: string) {
@@ -76,8 +71,6 @@ export class Model {
         this.order.items = correctArray;
 
         this.changeTotal();
-
-        return this
     }
 
     getOrderLength() {
@@ -97,7 +90,31 @@ export class Model {
     }
 
     clear() {
-        this.order = new Order();
+        this.order = {
+            payment: '',
+            email: '',
+            phone: '',
+            address: '',
+            total: 0,
+            items: []
+        };
+    }
+
+    isValid(obj: Object) {
+        let booleanArray = [];
+        for(const data in obj){
+            if(isEmpty(data)) {
+                booleanArray.push('false')
+            } else {
+                booleanArray.push('true')
+            }
+        }
+
+        if(booleanArray.includes('false')) {
+            return false
+        } else {
+            return true
+        }
     }
 
     getData(id: string) {

@@ -18,6 +18,18 @@ export class Basket implements IBasket {
         this.cardList.append(card);
     }
 
+    clear() {
+        this.cardList.replaceChildren('');
+    }
+
+    changeButtonStatus(length: number) {
+        if(length === 0) {
+            this.button.setAttribute('disabled', 'true');
+        } else {
+            this.button.removeAttribute('disabled');
+        }
+    }
+
     setEvent(event: Function) {
         this.button.addEventListener('click', (() => {
             event(this);

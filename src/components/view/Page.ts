@@ -13,6 +13,10 @@ export class Page implements IPage {
         this.cardContainer.replaceChildren(...cards);
     }
 
+    setBasketLength(length: number) {
+        this.basketButton.querySelector('.header__basket-counter').textContent = `${length}`;
+    }
+
     setEventBasketButton(event: Function) {
         this.basketButton.addEventListener('click', (() => {
             event()

@@ -12,6 +12,12 @@ export class OrderResult implements IOrderResult {
         this.button = this.orderElement.querySelector('.button');
     }
 
+    setEvent(event: Function) {
+        this.button.addEventListener('click', () => {
+            event();
+        })
+    }
+
     render(total: number) {
         this.totalElement.textContent = `Списано ${total} синапсов`
         return this.orderElement

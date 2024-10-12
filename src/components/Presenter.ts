@@ -1,5 +1,4 @@
 import { IPopup, IBaseCard, IBasket, IForm, IOrderResult, IPage } from '../types/index';
-import { isEmpty } from '../utils/utils';
 import { Model } from './model/Model';
 import { ApiProduct } from './tools/ApiProduct';
 import { ICardConstructor } from './view/cards/CatalogCard';
@@ -39,10 +38,16 @@ export class Presenter {
 
     init() {
         this.orderForm = new this.orderFormConstructor(this.orderFormTemplate);
+        this.orderForm.setEventInput(this.eventOrderInput.bind(this));
         this.orderForm.setEventSubmit(this.eventSubmitOrderForm.bind(this));
 
         this.contactsForm = new this.contactsFormConstructor(this.contactsFormTemplate);
+        this.contactsForm.setEventInput(this.eventContactsInput.bind(this));
         this.contactsForm.setEventSubmit(this.eventSubmitContactsForm.bind(this));
+
+        this.orderResult.setEvent(() => {
+            this.modal.close()
+        })
     }
 
     eventOpenOrderForm() {
@@ -53,6 +58,22 @@ export class Presenter {
     eventOpenContactsForm() {
         this.modal.content = this.contactsForm.render();
         this.modal.open();
+    }
+
+    eventOrderInput(data: Object) {
+        if(this.model.isValid(data)) {
+            this.orderForm.submitOn();
+        } else {
+            this.orderForm.submitOff();
+        }
+    }
+
+    eventContactsInput(data: Object) {
+        if(this.model.isValid(data)) {
+            this.contactsForm.submitOn();
+        } else {
+            this.contactsForm.submitOff();
+        }
     }
 
     eventSubmitOrderForm() {
@@ -70,11 +91,9 @@ export class Presenter {
     }
 
     eventOpenOrderResult() {
+        console.log(this.model.getOrder());
         this.apiProduct.postOrder('/order', this.model.getOrder())
         .then((data) => {
-            this.orderResult.button.addEventListener('click', () => {
-                this.modal.close()
-            })
             this.modal.content = this.orderResult.render(data.total)
             this.modal.open();
         })
@@ -83,7 +102,7 @@ export class Presenter {
         })
 
         this.model.clear();
-        this.page.basketButton.querySelector('.header__basket-counter').textContent = `0`;
+        this.page.setBasketLength(this.model.getOrderLength());
     }
 
     eventOpenCard(card: IBaseCard) {
@@ -91,15 +110,9 @@ export class Presenter {
         const previewCard = new this.previewCardConstructor(this.previewCardTemplate);
         for (let i = 0; i < this.model.getOrderLength(); i++) {
             const selectId = this.model.getOrder().items[i];
-            if(openedData.id === selectId) {
-                previewCard.card.querySelector('.card__button').setAttribute('disabled', 'true');
-            }
+            previewCard.changeButtonStatus(openedData, selectId);
         }
-
-        if(isEmpty(openedData.price)) {
-            previewCard.card.querySelector('.card__button').setAttribute('disabled', 'true');
-            previewCard.card.querySelector('.card__button').textContent = 'Бесценно';
-        }
+        previewCard.changeButtonStatus(openedData);
 
         previewCard.setEvent(this.eventAddToBasket.bind(this));
 
@@ -108,24 +121,20 @@ export class Presenter {
     }
 
     eventAddToBasket(card: IBaseCard) {
-        let addData = this.model.getData(card.id);
-
-        this.model.addItem(addData.id);
-
-        this.page.basketButton.querySelector('.header__basket-counter').textContent = `${this.model.getOrderLength()}`;
+        this.model.addItem(card.id);
+        this.page.setBasketLength(this.model.getOrderLength());
 
         this.eventOpenCard(card);
     }
 
     eventDeleteFromBasket(card: IBaseCard) {
-        const addData = this.model.getData(card.id);
-        this.model.deleteItem(addData.id);
+        this.model.deleteItem(card.id);
         this.eventOpenBasket();
-        this.page.basketButton.querySelector('.header__basket-counter').textContent = `${this.model.getOrderLength()}`;
+        this.page.setBasketLength(this.model.getOrderLength());
     }
 
     eventOpenBasket() {
-        this.basket.cardList.replaceChildren(' ');
+        this.basket.clear();
 
         this.model.getOrder().items.forEach((item, index) => {
             const selectCardData = this.model.getData(item);
@@ -138,11 +147,7 @@ export class Presenter {
 
         this.basket.setEvent(this.eventOpenOrderForm.bind(this));
 
-        if(this.model.getOrderLength() === 0) {
-            this.basket.button.setAttribute('disabled', 'true');
-        } else {
-            this.basket.button.removeAttribute('disabled');
-        }
+        this.basket.changeButtonStatus(this.model.getOrderLength());
 
         this.modal.content = this.basket.render(this.model.getOrder().total);
         this.modal.open();
