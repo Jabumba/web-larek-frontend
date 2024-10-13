@@ -38,17 +38,6 @@ export interface IFormData{
     phone?: string;
 }
 
-export interface IItemView {
-    element: HTMLElement;
-    category?: HTMLSpanElement;
-    title: HTMLHRElement;
-    description?: HTMLParagraphElement;
-    image?: HTMLImageElement;
-    price: HTMLSpanElement;
-
-    render(data: ICard): HTMLElement
-}
-
 export interface ICard {
     id: string
     description: string
