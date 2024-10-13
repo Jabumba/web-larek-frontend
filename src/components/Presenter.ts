@@ -1,4 +1,4 @@
-import { IPopup, IBaseCard, IBasket, IForm, IOrderResult, IPage } from '../types/index';
+import { IPopup, IBaseCard, IBasket, IForm, IOrderResult, IPage, IFormData } from '../types/index';
 import { Model } from './model/Model';
 import { ApiProduct } from './tools/ApiProduct';
 import { ICardConstructor } from './view/cards/CatalogCard';
@@ -50,6 +50,22 @@ export class Presenter {
         })
     }
 
+    eventOrderInput(data: IFormData) {
+        if(this.model.isValid(data)) {
+            this.orderForm.submitOn();
+        } else {
+            this.orderForm.submitOff();
+        }
+    }
+
+    eventContactsInput(data: IFormData) {
+        if(this.model.isValid(data as Object)) {
+            this.contactsForm.submitOn();
+        } else {
+            this.contactsForm.submitOff();
+        }
+    }
+
     eventOpenOrderForm() {
         this.modal.content = this.orderForm.render();
         this.modal.open();
@@ -58,22 +74,6 @@ export class Presenter {
     eventOpenContactsForm() {
         this.modal.content = this.contactsForm.render();
         this.modal.open();
-    }
-
-    eventOrderInput(data: Object) {
-        if(this.model.isValid(data)) {
-            this.orderForm.submitOn();
-        } else {
-            this.orderForm.submitOff();
-        }
-    }
-
-    eventContactsInput(data: Object) {
-        if(this.model.isValid(data)) {
-            this.contactsForm.submitOn();
-        } else {
-            this.contactsForm.submitOff();
-        }
     }
 
     eventSubmitOrderForm() {
@@ -91,7 +91,6 @@ export class Presenter {
     }
 
     eventOpenOrderResult() {
-        console.log(this.model.getOrder());
         this.apiProduct.postOrder('/order', this.model.getOrder())
         .then((data) => {
             this.modal.content = this.orderResult.render(data.total)
@@ -102,6 +101,8 @@ export class Presenter {
         })
 
         this.model.clear();
+        this.orderForm.clearValue();
+        this.contactsForm.clearValue();
         this.page.setBasketLength(this.model.getOrderLength());
     }
 

@@ -21,22 +21,12 @@ export class OrderForm extends Form implements IForm {
 				button.classList.add('button_alt-active');
 			})
 		})
-
-		this.submitButton.addEventListener('submit', (evt) => {
-			console.log('форма');
-			evt.preventDefault()
-			this.eventSubmit();
-		})
-	}
-
-	isValidForm() {
-		return this.inputAddressField.value.length !== 0 ? true : false
 	}
 
 	getValue() {
 		return {
 			payment: this.form.querySelector('.button_alt-active').textContent,
-			address: String(this.inputAddressField.value)
+			address: this.inputAddressField.value
 		}
 	}
 }

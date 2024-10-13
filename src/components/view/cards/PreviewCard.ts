@@ -18,7 +18,7 @@ export class PreviewCard extends BaseCard implements IBaseCard {
     }
 
     setEvent(event: Function) {
-        this.card.addEventListener('click', ((evt) => {
+        this.button.addEventListener('click', (() => {
             event(this);
         }))
     }

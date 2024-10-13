@@ -1,19 +1,5 @@
-import { ICard, IOrder } from "../../types";
+import { ICard, IFormData, IOrder } from "../../types";
 import { isEmpty } from "../../utils/utils";
-
-// class Order implements IOrder {
-    // public payment: string;
-    // public email: string;
-    // public phone: string;
-    // public address: string;
-    // public total: number;
-    // public items: string[];
-
-//     constructor() {
-//         this.total = 0;
-//         this.items = []
-//     }
-// }
 
 export class Model {
     protected _items: ICard[];
@@ -100,15 +86,15 @@ export class Model {
         };
     }
 
-    isValid(obj: Object) {
-        let booleanArray = [];
-        for(const data in obj){
-            if(isEmpty(data)) {
-                booleanArray.push('false')
+    isValid(obj: IFormData) {
+        let booleanArray: string[] = [];
+        Object.keys(obj).forEach((key) => {
+            if(isEmpty(obj[key as keyof typeof obj]) || obj[key as keyof typeof obj] === '') {
+                booleanArray.push('false');
             } else {
-                booleanArray.push('true')
+                booleanArray.push('true');
             }
-        }
+        })
 
         if(booleanArray.includes('false')) {
             return false

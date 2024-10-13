@@ -20,22 +20,22 @@ export interface IForm {
 	submitButton: HTMLButtonElement;
 	errorField: HTMLSpanElement;
     inputList: HTMLInputElement[];
-	eventSubmit: Function;
 	eventInput: Function;
 
     submitOn(): void
 	submitOff(): void
-    getValue(): {
-        payment?: string,
-        address?: string,
-        email?: string,
-        phone?: string
-    }
+    getValue(): IFormData
 	setEventSubmit(event: Function): void
     setEventInput(event: Function): void
 	clearValue(): void
-    isValidForm(): boolean
 	render(): HTMLFormElement
+}
+
+export interface IFormData{
+    payment?: string;
+    address?: string;
+    email?: string;
+    phone?: string;
 }
 
 export interface IItemView {

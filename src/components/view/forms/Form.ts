@@ -1,4 +1,4 @@
-import { IForm } from "../../../types";
+import { IForm, IFormData } from "../../../types";
 
 export interface IFormConstructor {
     new (template: HTMLTemplateElement): IForm
@@ -9,7 +9,6 @@ export abstract class Form implements IForm {
 	submitButton: HTMLButtonElement;
 	errorField: HTMLSpanElement;
 	inputList: HTMLInputElement[];
-	eventSubmit: Function;
 	eventInput: Function;
 
 	constructor(formTemplate: HTMLTemplateElement) {
@@ -17,33 +16,11 @@ export abstract class Form implements IForm {
 		this.errorField = this.form.querySelector('.form__errors');
 		this.inputList = [...this.form.querySelectorAll('.form__input')] as HTMLInputElement[];
 
-		// this.inputList.forEach((input) => {
-		// 	input.addEventListener('input', () => {
-		// 		if(this.isValidForm()) {
-		// 			this.submitButton.removeAttribute('onclick'); 
-		// 			this.errorField.textContent = '';
-		// 			this.submitButton.removeAttribute('disabled');
-		// 			this.submitButton.onclick = (evt) => {
-		// 				evt.preventDefault();
-		// 				this.eventSubmit();
-		// 			}
-		// 		} else {
-		// 			this.errorField.textContent = 'Заполните все поля';
-		// 			this.submitButton.setAttribute('disabled', 'true');
-		// 		}
-		// 	})
-		// })
-
 		this.inputList.forEach((input) => {
 			input.addEventListener('input', () => {
 				this.eventInput(this.getValue());
 			})
 		})
-
-		// this.submitButton.addEventListener('submit', (evt) => {
-		// 	evt.preventDefault()
-		// 	this.eventSubmit();
-		// })
 	}
 
 	submitOn() {
@@ -56,17 +33,13 @@ export abstract class Form implements IForm {
 		this.submitButton.setAttribute('disabled', 'true');
 	}
 
-	abstract getValue(): { 
-		payment?: string,
-        address?: string,
-        email?: string,
-        phone?: string
-     }
+	abstract getValue(): IFormData
 
 	setEventSubmit(event: Function) {
-		this.eventSubmit = () => {
+		this.form.addEventListener('submit', (evt) => {
+			evt.preventDefault();
 			event();
-		}
+		})
     }
 
 	setEventInput(event: Function) {
@@ -77,9 +50,7 @@ export abstract class Form implements IForm {
 		this.form.reset();
 	}
 
-	abstract isValidForm(): boolean
-
 	render() {
-		return this.form;
+		return this.form
 	}
 }
